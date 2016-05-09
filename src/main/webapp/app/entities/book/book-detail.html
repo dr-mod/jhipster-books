@@ -1,0 +1,35 @@
+
+<div>
+    <h2><span translate="jhipsterApp.book.detail.title">Book</span> {{vm.book.id}}</h2>
+    <hr>
+    <dl class="dl-horizontal">
+        <dt><span translate="jhipsterApp.book.name">Name</span></dt>
+        <dd>
+            <span>{{vm.book.name}}</span>
+        </dd>
+        <hr>
+        <dt><span translate="jhipsterApp.book.releaseDate">Release Date</span></dt>
+        <dd>
+            <span>{{vm.book.releaseDate | date:'medium'}}</span>
+        </dd>
+        <hr>
+        <dt><span translate="jhipsterApp.book.author">Author</span></dt>
+        <dd>
+            <a ui-sref="author-detail({id:vm.book.author.id})">{{vm.book.author.pseudonym}}</a>
+        </dd>
+        <hr>
+        <dt><span translate="jhipsterApp.book.genre">Genre</span></dt>
+        <dd>
+            <span ng-repeat="genre in vm.book.genres">
+                <a ui-sref="genre-detail({id: {{genre.id}}})">{{genre.type}}</a>{{$last ? '' : ', '}}
+            </span>
+        </dd>
+        <hr>
+    </dl>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

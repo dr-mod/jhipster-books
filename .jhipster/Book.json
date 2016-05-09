@@ -1,0 +1,40 @@
+{
+  "relationships": [
+    {
+      "relationshipId": 1,
+      "relationshipName": "author",
+      "otherEntityName": "author",
+      "relationshipType": "many-to-one",
+      "otherEntityField": "pseudonym"
+    },
+    {
+      "relationshipId": 2,
+      "relationshipName": "genre",
+      "otherEntityName": "genre",
+      "relationshipType": "many-to-many",
+      "otherEntityField": "type",
+      "ownerSide": true
+    }
+  ],
+  "fields": [
+    {
+      "fieldId": 1,
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required",
+        "minlength"
+      ],
+      "fieldValidateRulesMinlength": 2
+    },
+    {
+      "fieldId": 2,
+      "fieldName": "releaseDate",
+      "fieldType": "ZonedDateTime"
+    }
+  ],
+  "changelogDate": "20160509171714",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no"
+}
