@@ -1,0 +1,29 @@
+entity Genre {
+	type String required
+}
+
+entity Author {
+	pseudonym String required,
+	gender Gender
+}
+
+entity Book {
+	name String required minlength(2),
+	releaseDate ZonedDateTime
+}
+
+enum Gender {
+    MALE, FEMALE, OTHER
+}
+
+relationship ManyToOne {
+	Book{author(pseudonym)} to Author
+}
+
+relationship ManyToOne {
+	Author{user(login)} to User 
+}
+
+relationship ManyToMany {
+	Book{genre(type)} to Genre{book}
+}
