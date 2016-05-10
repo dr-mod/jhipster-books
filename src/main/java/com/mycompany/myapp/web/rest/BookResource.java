@@ -3,6 +3,8 @@ package com.mycompany.myapp.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.mycompany.myapp.domain.Book;
 import com.mycompany.myapp.repository.BookRepository;
+import com.mycompany.myapp.security.AuthoritiesConstants;
+import com.mycompany.myapp.security.SecurityUtils;
 import com.mycompany.myapp.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,10 +29,10 @@ import java.util.Optional;
 public class BookResource {
 
     private final Logger log = LoggerFactory.getLogger(BookResource.class);
-        
+
     @Inject
     private BookRepository bookRepository;
-    
+
     /**
      * POST  /books : Create a new book.
      *
@@ -88,7 +90,12 @@ public class BookResource {
     @Timed
     public List<Book> getAllBooks() {
         log.debug("REST request to get all Books");
-        List<Book> books = bookRepository.findAllWithEagerRelationships();
+        List<Book> books;
+        if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
+            books = bookRepository.findAllWithEagerRelationships();
+        } else {
+            books = bookRepository.findAllOfCurrentUser();
+        }
         return books;
     }
 
