@@ -3,6 +3,8 @@ package com.mycompany.myapp.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.mycompany.myapp.domain.Author;
 import com.mycompany.myapp.repository.AuthorRepository;
+import com.mycompany.myapp.security.AuthoritiesConstants;
+import com.mycompany.myapp.security.SecurityUtils;
 import com.mycompany.myapp.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,10 +29,10 @@ import java.util.Optional;
 public class AuthorResource {
 
     private final Logger log = LoggerFactory.getLogger(AuthorResource.class);
-        
+
     @Inject
     private AuthorRepository authorRepository;
-    
+
     /**
      * POST  /authors : Create a new author.
      *
@@ -88,7 +90,12 @@ public class AuthorResource {
     @Timed
     public List<Author> getAllAuthors() {
         log.debug("REST request to get all Authors");
-        List<Author> authors = authorRepository.findAll();
+        List<Author> authors;
+        if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
+            authors = authorRepository.findAll();
+        } else {
+            authors = authorRepository.findByUserIsCurrentUser();
+        }
         return authors;
     }
 
